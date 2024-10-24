@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        //mengatur tema
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -33,9 +32,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // Menyimpan referensi ScaffoldState
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Mengaitkan key dengan Scaffold
       appBar: AppBar(
         title: const Text(
           'Sherin Animal Feed Store',
@@ -44,13 +47,42 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.menu),
           onPressed: () {
-            Navigator.pop(context);
+            // Menggunakan key untuk membuka drawer
+            _scaffoldKey.currentState?.openDrawer();
           },
         ),
         backgroundColor: Colors.pink[100],
         foregroundColor: Colors.white,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.pink[50],
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                // Tindakan ketika menu ditekan
+                Navigator.pop(context); // Menutup drawer setelah memilih
+              },
+            ),
+            // Tambahkan item lainnya sesuai kebutuhan
+          ],
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(15),
